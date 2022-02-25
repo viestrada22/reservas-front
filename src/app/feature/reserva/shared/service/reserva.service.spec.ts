@@ -95,16 +95,16 @@ describe('ReservaService', () => {
   it('deberia listar los tipos de usuario', () => {
     const dummyTipoUsuario = [
       {
-        "id": 1,
-        "tipoUsuario": "casual"
+        id: 1,
+        tipoUsuario: 'casual'
       },
       {
-        "id": 2,
-        "tipoUsuario": "frecuente"
+        id: 2,
+        tipoUsuario: 'frecuente'
       },
       {
-        "id": 3,
-        "tipoUsuario": "miembro"
+        id: 3,
+        tipoUsuario: 'miembro'
       }
     ];
     service.listarTipoUsuario().subscribe(reservas => {
@@ -119,16 +119,16 @@ describe('ReservaService', () => {
   it('deberia listar los tipos de habitacion', () => {
     const dummyTipoHabitacion = [
       {
-        "id": 1,
-        "tipoHabitacion": "sencilla"
+        id: 1,
+        tipoHabitacion: 'sencilla'
       },
       {
-        "id": 2,
-        "tipoHabitacion": "especial"
+        id: 2,
+        tipoHabitacion: 'especial'
       },
       {
-        "id": 3,
-        "tipoHabitacion": "suite"
+        id: 3,
+        tipoHabitacion: 'suite'
       }
     ];
     service.listarTipoHabitacion().subscribe(reservas => {

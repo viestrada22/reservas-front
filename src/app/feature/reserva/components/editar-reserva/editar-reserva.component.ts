@@ -43,7 +43,7 @@ export class EditarReservaComponent implements OnInit {
           roomType: new FormControl(reserva[0].idTipoHabitacion, Validators.required),
           reservationDate: new FormControl(reserva[0].fechaReserva, Validators.required),
           totalPayment: new FormControl(reserva[0].valorAPagar, Validators.required)
-        })
+        });
       });
   }
 

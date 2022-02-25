@@ -41,14 +41,14 @@ describe('EditarReservaComponent', () => {
     service = TestBed.inject(ReservaService);
     spyOn(service, 'actualizar').and.returnValue(of(true));
     spyOn(service, 'consultarPorId').and.returnValue(of([{
-      "id": 1,
-      "identificacionUsuario": "1214721788",
-      "nombreUsuario": "Victor Estrada C",
-      "fechaReserva": "2022-02-27",
-      "fechaCreacion": "2022-02-24",
-      "valorAPagar": 680000,
-      "idTipoHabitacion": 3,
-      "idTipoUsuario": 3
+      id: 1,
+      identificacionUsuario: '1214721788',
+      nombreUsuario: 'Victor Estrada C',
+      fechaReserva: '2022-02-27',
+      fechaCreacion: '2022-02-24',
+      valorAPagar: 680000,
+      idTipoHabitacion: 3,
+      idTipoUsuario: 3
     }]));
     fixture.detectChanges();
   });
@@ -78,16 +78,16 @@ describe('EditarReservaComponent', () => {
   it('Listar tipos de usuario', () => {
     spyOn(service, 'listarTipoUsuario').and.returnValue(of([
       {
-        "id": 1,
-        "tipoUsuario": "casual"
+        id: 1,
+        tipoUsuario: 'casual'
       },
       {
-        "id": 2,
-        "tipoUsuario": "frecuente"
+        id: 2,
+        tipoUsuario: 'frecuente'
       },
       {
-        "id": 3,
-        "tipoUsuario": "miembro"
+        id: 3,
+        tipoUsuario: 'miembro'
       }
     ]));
     component.getTipoUsuario();
@@ -97,16 +97,16 @@ describe('EditarReservaComponent', () => {
   it('Listar tipos de habitacion', () => {
     spyOn(service, 'listarTipoHabitacion').and.returnValue(of([
       {
-        "id": 1,
-        "tipoHabitacion": "sencilla"
+        id: 1,
+        tipoHabitacion: 'sencilla'
       },
       {
-        "id": 2,
-        "tipoHabitacion": "especial"
+        id: 2,
+        tipoHabitacion: 'especial'
       },
       {
-        "id": 3,
-        "tipoHabitacion": "suite"
+        id: 3,
+        tipoHabitacion: 'suite'
       }
     ]));
     component.getTipoHabitacion();
@@ -116,10 +116,10 @@ describe('EditarReservaComponent', () => {
   it('Deberia calcular precio por tipo de habitación', () => {
     component.getDatosDeReserva();
     spyOn(service, 'consultarPrecioPorTipoHabitacion').and.returnValue(of([{
-      "id": 3,
-      "precioSemana": 650000,
-      "precioFinDeSemana": 850000,
-      "idTipoHabitacion": 3
+      id: 3,
+      precioSemana: 650000,
+      precioFinDeSemana: 850000,
+      idTipoHabitacion: 3
     }]));
     component.editarReservaForm.controls.roomType.setValue(3);
     component.calcularPago();

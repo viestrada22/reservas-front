@@ -38,24 +38,24 @@ describe('ListarReservaComponent', () => {
   it('Listar las reservas', () => {
     spyOn(service, 'consultar').and.returnValue(of([
       {
-        "id": 1,
-        "identificacionUsuario": "1214721788",
-        "nombreUsuario": "Victor Estrada C",
-        "fechaReserva": "2022-02-27",
-        "fechaCreacion": "2022-02-24",
-        "valorAPagar": 680000,
-        "idTipoHabitacion": 3,
-        "idTipoUsuario": 3
+        id: 1,
+        identificacionUsuario: '1214721788',
+        nombreUsuario: 'Victor Estrada C',
+        fechaReserva: '2022-02-27',
+        fechaCreacion: '2022-02-24',
+        valorAPagar: 680000,
+        idTipoHabitacion: 3,
+        idTipoUsuario: 3
       },
       {
-        "id": 2,
-        "identificacionUsuario": "35834321",
-        "nombreUsuario": "Diana Mejia",
-        "fechaReserva": "2022-02-26",
-        "fechaCreacion": "2022-02-24",
-        "valorAPagar": 560000,
-        "idTipoHabitacion": 2,
-        "idTipoUsuario": 2
+        id: 2,
+        identificacionUsuario: '35834321',
+        nombreUsuario: 'Diana Mejia',
+        fechaReserva: '2022-02-26',
+        fechaCreacion: '2022-02-24',
+        valorAPagar: 560000,
+        idTipoHabitacion: 2,
+        idTipoUsuario: 2
       }
     ]));
     component.getReservas();
@@ -65,25 +65,25 @@ describe('ListarReservaComponent', () => {
   it('deberia eliminar una reserva', () => {
     spyOn(service, 'eliminar').and.returnValue(of(true));
     component.eliminarReserva({
-      "id": 2,
-      "identificacionUsuario": "35834321",
-      "nombreUsuario": "Diana Mejia",
-      "fechaReserva": "2022-02-26",
-      "fechaCreacion": "2022-02-24",
-      "valorAPagar": 560000,
-      "idTipoHabitacion": 2,
-      "idTipoUsuario": 2
+      id: 2,
+      identificacionUsuario: '35834321',
+      nombreUsuario: 'Diana Mejia',
+      fechaReserva: '2022-02-26',
+      fechaCreacion: '2022-02-24',
+      valorAPagar: 560000,
+      idTipoHabitacion: 2,
+      idTipoUsuario: 2
     });
     spyOn(service, 'consultar').and.returnValue(of([
       {
-        "id": 1,
-        "identificacionUsuario": "1214721788",
-        "nombreUsuario": "Victor Estrada C",
-        "fechaReserva": "2022-02-27",
-        "fechaCreacion": "2022-02-24",
-        "valorAPagar": 680000,
-        "idTipoHabitacion": 3,
-        "idTipoUsuario": 3
+        id: 1,
+        identificacionUsuario: '1214721788',
+        nombreUsuario: 'Victor Estrada C',
+        fechaReserva: '2022-02-27',
+        fechaCreacion: '2022-02-24',
+        valorAPagar: 680000,
+        idTipoHabitacion: 3,
+        idTipoUsuario: 3
       },
     ]));
     component.getReservas();

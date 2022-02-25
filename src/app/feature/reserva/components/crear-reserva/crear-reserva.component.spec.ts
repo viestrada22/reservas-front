@@ -5,7 +5,6 @@ import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpService } from '@core/services/http.service';
 import { ReservaService } from '@reserva/shared/service/reserva.service';
-// import { ReservaMockService } from '@shared/mocks/reserva-mock-service';
 import { of } from 'rxjs';
 
 import { CrearReservaComponent } from './crear-reserva.component';
@@ -62,16 +61,16 @@ describe('CrearReservaComponent', () => {
   it('Listar tipos de usuario', () => {
     spyOn(service, 'listarTipoUsuario').and.returnValue(of([
       {
-        "id": 1,
-        "tipoUsuario": "casual"
+        id: 1,
+        tipoUsuario: 'casual'
       },
       {
-        "id": 2,
-        "tipoUsuario": "frecuente"
+        id: 2,
+        tipoUsuario: 'frecuente'
       },
       {
-        "id": 3,
-        "tipoUsuario": "miembro"
+        id: 3,
+        tipoUsuario: 'miembro'
       }
     ]));
     component.getTipoUsuario();
@@ -81,16 +80,16 @@ describe('CrearReservaComponent', () => {
   it('Listar tipos de habitacion', () => {
     spyOn(service, 'listarTipoHabitacion').and.returnValue(of([
       {
-        "id": 1,
-        "tipoHabitacion": "sencilla"
+        id: 1,
+        tipoHabitacion: 'sencilla'
       },
       {
-        "id": 2,
-        "tipoHabitacion": "especial"
+        id: 2,
+        tipoHabitacion: 'especial'
       },
       {
-        "id": 3,
-        "tipoHabitacion": "suite"
+        id: 3,
+        tipoHabitacion: 'suite'
       }
     ]));
     component.getTipoHabitacion();
@@ -99,10 +98,10 @@ describe('CrearReservaComponent', () => {
 
   it('Deberia calcular precio por tipo de habitación', () => {
     spyOn(service, 'consultarPrecioPorTipoHabitacion').and.returnValue(of([{
-      "id": 3,
-      "precioSemana": 650000,
-      "precioFinDeSemana": 850000,
-      "idTipoHabitacion": 3
+      id: 3,
+      precioSemana: 650000,
+      precioFinDeSemana: 850000,
+      idTipoHabitacion: 3
     }]));
     component.reservaForm.controls.roomType.setValue(3);
     component.calcularPago();
