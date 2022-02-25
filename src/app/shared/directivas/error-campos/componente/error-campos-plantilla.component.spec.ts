@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ErrorCamposPlantillaComponent } from './error-campos-plantilla.component';
 
@@ -6,7 +6,7 @@ describe('ErrorCamposPlantillaComponent', () => {
   let component: ErrorCamposPlantillaComponent;
   let fixture: ComponentFixture<ErrorCamposPlantillaComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ ErrorCamposPlantillaComponent ]
     })

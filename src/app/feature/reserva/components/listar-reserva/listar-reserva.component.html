@@ -1,0 +1,36 @@
+<section class="row">
+  <div class="col-10 offset-1">
+    <div class="card">
+      <div class="card-header text-center bg-dark text-light">
+        Lista de Reservas
+      </div>
+      <div class="card-body table-responsive">
+        <table class="table table-md table-bordered">
+          <thead>
+            <tr>
+              <th scope="col">Identificación Usuario</th>
+              <th scope="col">Nombre Usuario</th>
+              <th scope="col">Fecha de solicitud</th>
+              <th scope="col">Fecha de reserva</th>
+              <th scope="col">Precio Habitación</th>
+              <th scope="col">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let reserva of listaDeReservas">
+              <th>{{ reserva.identificacionUsuario }}</th>
+              <td>{{ reserva.nombreUsuario }}</td>
+              <td>{{ reserva.fechaCreacion }}</td>
+              <td>{{ reserva.fechaReserva }}</td>
+              <td>{{ reserva.valorAPagar }}</td>
+              <td class="d-flex justify-content-around">
+                <button class="btn btn-outline-dark" [routerLink]="['/reserva/editar',reserva.id]">Editar</button>
+                <button class="btn btn-outline-danger" (click)="eliminarReserva(reserva)">Eliminar</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
