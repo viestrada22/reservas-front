@@ -8,8 +8,8 @@ import { ReservaService } from '@reserva/shared/service/reserva.service';
 import * as moment from 'moment';
 import Swal from 'sweetalert2';
 
-// const LONGITUD_MINIMA_PERMITIDA_TEXTO = 3;
-// const LONGITUD_MAXIMA_PERMITIDA_TEXTO = 30;
+const LONGITUD_MINIMA_PERMITIDA_TEXTO = 3;
+const LONGITUD_MAXIMA_PERMITIDA_TEXTO = 30;
 
 @Component({
   selector: 'app-editar-reserva',
@@ -36,8 +36,8 @@ export class EditarReservaComponent implements OnInit {
       .subscribe(reserva => {
         this.editarReservaForm = this.fb.group({
           id: new FormControl(reserva[0].id, Validators.required),
-          userId: new FormControl(reserva[0].identificacionUsuario, Validators.required),
-          userName: new FormControl(reserva[0].nombreUsuario, Validators.required),
+          userId: new FormControl(reserva[0].identificacionUsuario, [Validators.required, Validators.minLength(LONGITUD_MINIMA_PERMITIDA_TEXTO)]),
+          userName: new FormControl(reserva[0].nombreUsuario, [Validators.required, Validators.maxLength(LONGITUD_MAXIMA_PERMITIDA_TEXTO)]),
           userType: new FormControl(reserva[0].idTipoUsuario, Validators.required),
           roomType: new FormControl(reserva[0].idTipoHabitacion, Validators.required),
           reservationDate: new FormControl(reserva[0].fechaReserva, Validators.required),
@@ -60,8 +60,10 @@ export class EditarReservaComponent implements OnInit {
     const roomTypeId = this.editarReservaForm.get('roomType')?.value;
 
     if (roomTypeId !== null) {
+      const SABADO: number = 6;
+      const DOMINGO: number = 7;
       this.reservaService.consultarPrecioPorTipoHabitacion(roomTypeId).subscribe((resp: Precio[]) => {
-        if (reservationDay === 6 || reservationDay === 7) {
+        if (reservationDay === SABADO || reservationDay === DOMINGO) {
           this.editarReservaForm.get('totalPayment').setValue(resp[0].precioFinDeSemana);
         } else {
           this.editarReservaForm.get('totalPayment').setValue(resp[0].precioSemana);

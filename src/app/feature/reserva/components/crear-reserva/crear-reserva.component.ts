@@ -69,9 +69,11 @@ export class CrearReservaComponent implements OnInit {
     const roomTypeId = this.reservaForm.get('roomType')?.value;
 
     if (roomTypeId !== null) {
+      const SABADO: number = 6;
+      const DOMINGO: number = 7;
       this.reservaService.consultarPrecioPorTipoHabitacion(roomTypeId)
         .subscribe((resp: Precio[]) => {
-          if (reservationDay === 6 || reservationDay === 7) {
+          if (reservationDay === SABADO || reservationDay === DOMINGO) {
             this.reservaForm.get('totalPayment').setValue(resp[0].precioFinDeSemana);
           } else {
             this.reservaForm.get('totalPayment').setValue(resp[0].precioSemana);
