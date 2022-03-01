@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Precio } from '@reserva/shared/model/precio';
-import { Reserva } from '@reserva/shared/model/reserva';
 import { TipoHabitacion } from '@reserva/shared/model/tipo-habitacion';
 import { TipoUsuario } from '@reserva/shared/model/tipo-usuario';
 import { ReservaService } from '@reserva/shared/service/reserva.service';
@@ -86,16 +85,16 @@ export class CrearReservaComponent implements OnInit {
       return;
     }
 
-    const reserva = new Reserva(
-      this.reservaForm.get('id').value,
-      this.reservaForm.get('userId').value,
-      this.reservaForm.get('userName').value,
-      moment(this.reservaForm.get('reservationDate').value).format('YYYY-MM-DD'),
-      moment().format('YYYY-MM-DD'),
-      this.reservaForm.get('totalPayment').value,
-      this.reservaForm.get('roomType').value,
-      this.reservaForm.get('userType').value,
-    );
+    const reserva = {
+      id: this.reservaForm.get('id').value,
+      identificacionUsuario: this.reservaForm.get('userId').value,
+      nombreUsuario: this.reservaForm.get('userName').value,
+      fechaReserva: moment(this.reservaForm.get('reservationDate').value).format('YYYY-MM-DD'),
+      fechaCreacion: moment().format('YYYY-MM-DD'),
+      valorAPagar: this.reservaForm.get('totalPayment').value,
+      idTipoHabitacion: this.reservaForm.get('roomType').value,
+      idTipoUsuario: this.reservaForm.get('userType').value,
+    };
 
     this.reservaService.guardar(reserva).subscribe(response => {
       if (response[`valor`] !== undefined) {

@@ -29,7 +29,7 @@ export class ListarReservaComponent implements OnInit {
       denyButtonText: `Cancelar`,
     }).then((result) => {
       if (result.isConfirmed) {
-        this.reservaService.eliminar(reserva).subscribe(resp => console.log(resp));
+        this.reservaService.eliminar(reserva).subscribe();
         this.getReservas();
         Swal.fire('Reserva eliminada!', '', 'success');
       } else if (result.isDenied) {

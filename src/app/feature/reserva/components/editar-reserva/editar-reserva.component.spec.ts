@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpService } from '@core/services/http.service';
 import { ReservaService } from '@reserva/shared/service/reserva.service';
+import { ReservaMockService } from '@shared/mocks/reserva-mock-service';
 import { of } from 'rxjs';
 
 import { EditarReservaComponent } from './editar-reserva.component';
@@ -15,6 +16,7 @@ describe('EditarReservaComponent', () => {
   let fixture: ComponentFixture<EditarReservaComponent>;
   let routeSpy: any;
   let service: ReservaService;
+  const mockService: ReservaMockService = new ReservaMockService();
 
   beforeEach(async () => {
     routeSpy = { navigate: jasmine.createSpy('navigate') };
@@ -40,16 +42,7 @@ describe('EditarReservaComponent', () => {
     component = fixture.componentInstance;
     service = TestBed.inject(ReservaService);
     spyOn(service, 'actualizar').and.returnValue(of(true));
-    spyOn(service, 'consultarPorId').and.returnValue(of([{
-      id: 1,
-      identificacionUsuario: '1214721788',
-      nombreUsuario: 'Victor Estrada C',
-      fechaReserva: '2022-02-27',
-      fechaCreacion: '2022-02-24',
-      valorAPagar: 680000,
-      idTipoHabitacion: 3,
-      idTipoUsuario: 3
-    }]));
+    spyOn(service, 'consultarPorId').and.returnValue(of(mockService.consultarPorId()));
     fixture.detectChanges();
   });
 
@@ -76,39 +69,13 @@ describe('EditarReservaComponent', () => {
   });
 
   it('Listar tipos de usuario', () => {
-    spyOn(service, 'listarTipoUsuario').and.returnValue(of([
-      {
-        id: 1,
-        tipoUsuario: 'casual'
-      },
-      {
-        id: 2,
-        tipoUsuario: 'frecuente'
-      },
-      {
-        id: 3,
-        tipoUsuario: 'miembro'
-      }
-    ]));
+    spyOn(service, 'listarTipoUsuario').and.returnValue(of(mockService.listarTipoUsuario()));
     component.getTipoUsuario();
     expect(component.listaTipoUsuarios.length).toBe(3);
   });
 
   it('Listar tipos de habitacion', () => {
-    spyOn(service, 'listarTipoHabitacion').and.returnValue(of([
-      {
-        id: 1,
-        tipoHabitacion: 'sencilla'
-      },
-      {
-        id: 2,
-        tipoHabitacion: 'especial'
-      },
-      {
-        id: 3,
-        tipoHabitacion: 'suite'
-      }
-    ]));
+    spyOn(service, 'listarTipoHabitacion').and.returnValue(of(mockService.listarTipoHabitacion()));
     component.getTipoHabitacion();
     expect(component.listaTipoHabitaciones.length).toBe(3);
   });

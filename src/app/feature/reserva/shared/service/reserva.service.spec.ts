@@ -2,15 +2,17 @@ import { HttpResponse } from '@angular/common/http';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { HttpService } from '@core/services/http.service';
+import { ReservaMockService } from '@shared/mocks/reserva-mock-service';
 import { environment } from 'src/environments/environment';
 import { Precio } from '../model/precio';
-import { Reserva } from '../model/reserva';
 
 import { ReservaService } from './reserva.service';
 
 describe('ReservaService', () => {
   let service: ReservaService;
   let httpMock: HttpTestingController;
+  const mockService: ReservaMockService = new ReservaMockService();
+
   const apiEndpointConsultarReserva = `${environment.endpoint}/reservas`;
   const apiEndpointConsultarReservaPorId = `${environment.endpoint}/reservas/1`;
   const apiEndpointCrearReserva = `${environment.endpoint}/reservas`;
@@ -30,16 +32,12 @@ describe('ReservaService', () => {
   });
 
   it('should be created', () => {
-    const service: ReservaService = TestBed.inject(ReservaService);
     expect(service).toBeTruthy();
   });
 
 
   it('deberia listar reservas', () => {
-    const dummyReservas = [
-      new Reserva(1, '1214721788', 'Victor Estrada C', '2022-02-27', '2022-02-24', 680000, 3, 3),
-      new Reserva(2, '35834321', 'Diana Mejia', '2022-02-26', '2022-02-24', 560000, 2, 2)
-    ];
+    const dummyReservas = mockService.consultar();
     service.consultar().subscribe(reservas => {
       expect(reservas.length).toBe(2);
       expect(reservas).toEqual(dummyReservas);
@@ -50,9 +48,7 @@ describe('ReservaService', () => {
   });
 
   it('deberia listar reserva por id', () => {
-    const dummyReservas = [
-      new Reserva(1, '1214721788', 'Victor Estrada C', '2022-02-27', '2022-02-24', 680000, 3, 3)
-    ];
+    const dummyReservas = mockService.consultarPorId();
     service.consultarPorId(1).subscribe(reservas => {
       expect(reservas.length).toBe(1);
       expect(reservas).toEqual(dummyReservas);
@@ -63,7 +59,7 @@ describe('ReservaService', () => {
   });
 
   it('deberia crear una reserva', () => {
-    const dummyReserva = new Reserva(1, '1214721788', 'Victor Estrada C', '2022-02-27', '2022-02-24', 680000, 3, 3);
+    const dummyReserva = mockService.crear();
     service.guardar(dummyReserva).subscribe((respuesta) => {
       expect(respuesta).toEqual(true);
     });
@@ -73,7 +69,7 @@ describe('ReservaService', () => {
   });
 
   it('deberia actualizar una reserva', () => {
-    const dummyReserva = new Reserva(1, '1214721788', 'Victor Estrada', '2022-02-27', '2022-02-24', 680000, 3, 3);
+    const dummyReserva = mockService.actualizar();
     service.actualizar(dummyReserva).subscribe((respuesta) => {
       expect(respuesta).toEqual(true);
     });
@@ -83,7 +79,7 @@ describe('ReservaService', () => {
   });
 
   it('deberia eliminar una', () => {
-    const dummyReserva = new Reserva(1, '1214721788', 'Victor Estrada C', '2022-02-27', '2022-02-24', 680000, 3, 3);
+    const dummyReserva = mockService.eliminar();
     service.eliminar(dummyReserva).subscribe((respuesta) => {
       expect(respuesta).toEqual(true);
     });
@@ -93,20 +89,7 @@ describe('ReservaService', () => {
   });
 
   it('deberia listar los tipos de usuario', () => {
-    const dummyTipoUsuario = [
-      {
-        id: 1,
-        tipoUsuario: 'casual'
-      },
-      {
-        id: 2,
-        tipoUsuario: 'frecuente'
-      },
-      {
-        id: 3,
-        tipoUsuario: 'miembro'
-      }
-    ];
+    const dummyTipoUsuario = mockService.listarTipoUsuario();
     service.listarTipoUsuario().subscribe(reservas => {
       expect(reservas.length).toBe(3);
       expect(reservas).toEqual(dummyTipoUsuario);
@@ -117,20 +100,7 @@ describe('ReservaService', () => {
   });
 
   it('deberia listar los tipos de habitacion', () => {
-    const dummyTipoHabitacion = [
-      {
-        id: 1,
-        tipoHabitacion: 'sencilla'
-      },
-      {
-        id: 2,
-        tipoHabitacion: 'especial'
-      },
-      {
-        id: 3,
-        tipoHabitacion: 'suite'
-      }
-    ];
+    const dummyTipoHabitacion = mockService.listarTipoHabitacion();
     service.listarTipoHabitacion().subscribe(reservas => {
       expect(reservas.length).toBe(3);
       expect(reservas).toEqual(dummyTipoHabitacion);

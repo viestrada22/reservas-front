@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Precio } from '@reserva/shared/model/precio';
-import { Reserva } from '@reserva/shared/model/reserva';
 import { TipoHabitacion } from '@reserva/shared/model/tipo-habitacion';
 import { TipoUsuario } from '@reserva/shared/model/tipo-usuario';
 import { ReservaService } from '@reserva/shared/service/reserva.service';
@@ -76,16 +75,16 @@ export class EditarReservaComponent implements OnInit {
       return;
     }
 
-    const reserva = new Reserva(
-      this.editarReservaForm.get('id').value,
-      this.editarReservaForm.get('userId').value,
-      this.editarReservaForm.get('userName').value,
-      moment(this.editarReservaForm.get('reservationDate').value).format('YYYY-MM-DD'),
-      moment().format('YYYY-MM-DD'),
-      this.editarReservaForm.get('totalPayment').value,
-      this.editarReservaForm.get('roomType').value,
-      this.editarReservaForm.get('userType').value,
-    );
+    const reserva = {
+      id: this.editarReservaForm.get('id').value,
+      identificacionUsuario: this.editarReservaForm.get('userId').value,
+      nombreUsuario: this.editarReservaForm.get('userName').value,
+      fechaReserva: moment(this.editarReservaForm.get('reservationDate').value).format('YYYY-MM-DD'),
+      fechaCreacion: moment().format('YYYY-MM-DD'),
+      valorAPagar: this.editarReservaForm.get('totalPayment').value,
+      idTipoHabitacion: this.editarReservaForm.get('roomType').value,
+      idTipoUsuario: this.editarReservaForm.get('userType').value
+    };
 
     this.reservaService.actualizar(reserva).subscribe(() => {
       Swal.fire({
