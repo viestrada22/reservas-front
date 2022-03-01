@@ -15,9 +15,9 @@ describe('workspace-project reserva', () => {
     navBar.clickBotonReservas();
   });
 
-  it('Deberia crear reserva', async () => {
-    const IDENTIFICACION_USUARIO = '10017852';
-    const NOMBRE_USUARIO = 'Daniela Mejía';
+  it('Deberia crear la reserva', async () => {
+    const IDENTIFICACION_USUARIO = '7540207';
+    const NOMBRE_USUARIO = 'Daniel Restrepo';
     const FECHA_RESERVA = '03/04/2022';
 
     reserva.clickBotonCrearReservas();
@@ -29,12 +29,14 @@ describe('workspace-project reserva', () => {
     await reserva.ingresarIdTipoUsuario();
     await reserva.clickCrearReserva();
     // Adicionamos las validaciones despues de la creación
-    expect(reserva.alertaDeExito().isPresent()).toEqual(true);
+    expect(await reserva.alertaDeExito().isPresent()).toEqual(true);
+    reserva.clickConfirmar();
+    expect(page.getParagraphText('app-listar-reserva', 'h3')).toEqual('Lista de Reservas');
   });
 
   it('Deberia actualizar la reserva', async () => {
     const IDENTIFICACION_USUARIO = '1017128964';
-    const NOMBRE_USUARIO = 'Leider Noriega';
+    const NOMBRE_USUARIO = 'Neider Quintero';
     const FECHA_RESERVA = '03/02/2022';
 
     reserva.clickBotonListarReservas();
@@ -48,7 +50,9 @@ describe('workspace-project reserva', () => {
     await reserva.ingresarIdTipoUsuario();
     await reserva.clickActualizar();
     // Adicionamos las validaciones despues de la creación
-    expect(reserva.alertaDeExito().isPresent()).toEqual(true);
+    expect(await reserva.alertaDeExito().isPresent()).toEqual(true);
+    reserva.clickConfirmar();
+    expect(page.getParagraphText('app-listar-reserva', 'h3')).toEqual('Lista de Reservas');
   });
 
   it('Deberia eliminar una reserva', async () => {
@@ -64,7 +68,7 @@ describe('workspace-project reserva', () => {
     expect(reservas).toBeGreaterThan(reserva.contarReservas());
   });
 
-  it('Deberia listar reservas', () => {
+  it('Deberia listar las reservas', () => {
     reserva.clickBotonListarReservas();
     expect(reserva.contarReservas()).toBe(reserva.contarReservas());
   });

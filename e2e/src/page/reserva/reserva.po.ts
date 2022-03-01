@@ -13,7 +13,7 @@ export class ReservaPage {
   private btnCrear = element(by.id('createButton'));
   private btnActualizar = element(by.id('actualizarButton'));
   private btnEditar = element(by.id('editar-reserva1'));
-  private btnEliminar = element(by.id('eliminar-reserva1'));
+  private btnEliminar = element(by.id('eliminar-reserva2'));
   private btnConfirmar = element(by.className('swal2-confirm'));
 
   private listaReservas = element.all(by.xpath('.//tbody/tr'));
@@ -26,7 +26,7 @@ export class ReservaPage {
   async clickBotonListarReservas() {
     await this.linkListarReservas.click();
   }
-  
+
   async clickCrearReserva() {
     await this.btnCrear.click();
   }

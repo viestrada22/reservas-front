@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Precio } from '@reserva/shared/model/precio';
 import { TipoHabitacion } from '@reserva/shared/model/tipo-habitacion';
 import { TipoUsuario } from '@reserva/shared/model/tipo-usuario';
@@ -23,7 +24,7 @@ export class CrearReservaComponent implements OnInit {
   listaTipoHabitaciones: TipoHabitacion[] = [];
   precios: Precio[] = [];
 
-  constructor(private reservaService: ReservaService, private fb: FormBuilder) { }
+  constructor(private reservaService: ReservaService, private fb: FormBuilder, private router: Router) { }
 
   ngOnInit(): void {
     this.getTipoUsuario();
@@ -69,8 +70,8 @@ export class CrearReservaComponent implements OnInit {
     const roomTypeId = this.reservaForm.get('roomType')?.value;
 
     if (roomTypeId !== null) {
-      const SABADO: number = 6;
-      const DOMINGO: number = 7;
+      const SABADO  = 6;
+      const DOMINGO = 7;
       this.reservaService.consultarPrecioPorTipoHabitacion(roomTypeId)
         .subscribe((resp: Precio[]) => {
           if (reservationDay === SABADO || reservationDay === DOMINGO) {
@@ -108,6 +109,7 @@ export class CrearReservaComponent implements OnInit {
           timer: 2000
         });
         this.reservaForm.reset();
+        this.router.navigate(['/reserva/listar']);
       }
     }, (error) => {
       Swal.fire({

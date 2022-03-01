@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Precio } from '@reserva/shared/model/precio';
 import { TipoHabitacion } from '@reserva/shared/model/tipo-habitacion';
 import { TipoUsuario } from '@reserva/shared/model/tipo-usuario';
@@ -22,7 +22,11 @@ export class EditarReservaComponent implements OnInit {
   listaTipoUsuarios: TipoUsuario[] = [];
   listaTipoHabitaciones: TipoHabitacion[] = [];
 
-  constructor(private reservaService: ReservaService, private activatedRoute: ActivatedRoute, private fb: FormBuilder) { }
+  constructor(
+    private reservaService: ReservaService,
+    private activatedRoute: ActivatedRoute,
+    private fb: FormBuilder,
+    private router: Router) { }
 
   ngOnInit(): void {
     this.getDatosDeReserva();
@@ -36,8 +40,18 @@ export class EditarReservaComponent implements OnInit {
       .subscribe(reserva => {
         this.editarReservaForm = this.fb.group({
           id: new FormControl(reserva[0].id, Validators.required),
-          userId: new FormControl(reserva[0].identificacionUsuario, [Validators.required, Validators.minLength(LONGITUD_MINIMA_PERMITIDA_TEXTO)]),
-          userName: new FormControl(reserva[0].nombreUsuario, [Validators.required, Validators.maxLength(LONGITUD_MAXIMA_PERMITIDA_TEXTO)]),
+          userId: new FormControl(reserva[0].identificacionUsuario,
+            [
+              Validators.required,
+              Validators.minLength(LONGITUD_MINIMA_PERMITIDA_TEXTO)
+            ]
+          ),
+          userName: new FormControl(reserva[0].nombreUsuario,
+            [
+              Validators.required,
+              Validators.maxLength(LONGITUD_MAXIMA_PERMITIDA_TEXTO)
+            ]
+          ),
           userType: new FormControl(reserva[0].idTipoUsuario, Validators.required),
           roomType: new FormControl(reserva[0].idTipoHabitacion, Validators.required),
           reservationDate: new FormControl(reserva[0].fechaReserva, Validators.required),
@@ -60,8 +74,8 @@ export class EditarReservaComponent implements OnInit {
     const roomTypeId = this.editarReservaForm.get('roomType')?.value;
 
     if (roomTypeId !== null) {
-      const SABADO: number = 6;
-      const DOMINGO: number = 7;
+      const SABADO = 6;
+      const DOMINGO = 7;
       this.reservaService.consultarPrecioPorTipoHabitacion(roomTypeId).subscribe((resp: Precio[]) => {
         if (reservationDay === SABADO || reservationDay === DOMINGO) {
           this.editarReservaForm.get('totalPayment').setValue(resp[0].precioFinDeSemana);
@@ -96,6 +110,7 @@ export class EditarReservaComponent implements OnInit {
         showConfirmButton: true,
         timer: 2000
       });
+      this.router.navigate(['/reserva/listar']);
     }, (error) => {
       Swal.fire({
         icon: 'error',

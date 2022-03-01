@@ -33,9 +33,9 @@ export class ReservaMockService {
     return (
       {
         id: 1,
-        identificacionUsuario: '1214721788',
-        nombreUsuario: 'Victor Estrada C',
-        fechaReserva: '2022-02-27',
+        identificacionUsuario: '1017152360',
+        nombreUsuario: 'Daniela Jimenez',
+        fechaReserva: '2022-03-04',
         fechaCreacion: '2022-02-24',
         valorAPagar: 850000,
         idTipoHabitacion: 3,
