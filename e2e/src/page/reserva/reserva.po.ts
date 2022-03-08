@@ -10,13 +10,10 @@ export class ReservaPage {
   private inputIdTipoHabitacion = element(by.id('roomType'));
   private inputIdTipoUsuario = element(by.id('userType'));
 
-  private btnCrear = element(by.id('createButton'));
-  private btnActualizar = element(by.id('actualizarButton'));
+  private btnGuardarDatos = element(by.id('guardarDatosButton'));
   private btnEditar = element(by.id('editar-reserva1'));
   private btnEliminar = element(by.id('eliminar-reserva2'));
   private btnConfirmar = element(by.className('swal2-confirm'));
-
-  private listaReservas = element.all(by.xpath('.//tbody/tr'));
   private successfulAlert = element(by.className('swal2-success'));
 
   async clickBotonCrearReservas() {
@@ -27,20 +24,16 @@ export class ReservaPage {
     await this.linkListarReservas.click();
   }
 
-  async clickCrearReserva() {
-    await this.btnCrear.click();
+  async clickGuardarReserva() {
+    await this.btnGuardarDatos.click();
   }
 
-  async clickConfirmar() {
-    await this.btnConfirmar.click();
+  clickConfirmar() {
+    return this.btnConfirmar.click();
   }
 
   async clickEditar() {
     await this.btnEditar.click();
-  }
-
-  async clickActualizar() {
-    await this.btnActualizar.click();
   }
 
   async clickEliminar() {
@@ -76,6 +69,6 @@ export class ReservaPage {
   }
 
   async contarReservas() {
-    return this.listaReservas.count();
+    return element.all(by.xpath('.//tbody/tr')).count();
   }
 }

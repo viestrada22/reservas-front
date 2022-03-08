@@ -1,16 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Precio } from '@reserva/shared/model/precio';
-import { TipoHabitacion } from '@reserva/shared/model/tipo-habitacion';
-import { TipoUsuario } from '@reserva/shared/model/tipo-usuario';
+import { Reserva } from '@reserva/shared/model/reserva';
 import { ReservaService } from '@reserva/shared/service/reserva.service';
-import * as moment from 'moment';
 import Swal from 'sweetalert2';
-
-
-const LONGITUD_MINIMA_PERMITIDA_TEXTO = 3;
-const LONGITUD_MAXIMA_PERMITIDA_TEXTO = 30;
 
 @Component({
   selector: 'app-crear-reserva',
@@ -18,88 +10,18 @@ const LONGITUD_MAXIMA_PERMITIDA_TEXTO = 30;
   styleUrls: ['./crear-reserva.component.sass']
 })
 export class CrearReservaComponent implements OnInit {
-  reservaForm: FormGroup;
-  minDate: string = moment().add(1, 'days').format('YYYY-MM-DD');
-  listaTipoUsuarios: TipoUsuario[] = [];
-  listaTipoHabitaciones: TipoHabitacion[] = [];
-  precios: Precio[] = [];
+  reserva: Reserva;
 
-  constructor(private reservaService: ReservaService, private fb: FormBuilder, private router: Router) { }
+  constructor(private reservaService: ReservaService, private router: Router) { }
 
-  ngOnInit(): void {
-    this.getTipoUsuario();
-    this.getTipoHabitacion();
-    this.construirFormularioReserva();
-  }
+  ngOnInit(): void { }
 
-  private construirFormularioReserva() {
-    this.reservaForm = this.fb.group({
-      id: [null],
-      userId: ['',
-        [
-          Validators.required,
-          Validators.minLength(LONGITUD_MINIMA_PERMITIDA_TEXTO),
-          Validators.maxLength(LONGITUD_MAXIMA_PERMITIDA_TEXTO)
-        ]
-      ],
-      userName: ['',
-        [
-          Validators.required,
-          Validators.minLength(LONGITUD_MINIMA_PERMITIDA_TEXTO),
-          Validators.maxLength(LONGITUD_MAXIMA_PERMITIDA_TEXTO)
-        ]
-      ],
-      reservationDate: ['', Validators.required],
-      userType: ['', Validators.required],
-      roomType: ['', Validators.required],
-      totalPayment: ['', Validators.required]
-    });
-  }
-
-  getTipoUsuario() {
-    this.reservaService.listarTipoUsuario().subscribe(resp => this.listaTipoUsuarios = resp);
-  }
-
-  getTipoHabitacion() {
-    this.reservaService.listarTipoHabitacion().subscribe(resp => this.listaTipoHabitaciones = resp);
-  }
-
-  calcularPago() {
-    this.reservaForm.get('totalPayment').reset(null);
-    const reservationDay = moment(this.reservaForm.get('reservationDate')?.value).isoWeekday();
-    const roomTypeId = this.reservaForm.get('roomType')?.value;
-
-    if (roomTypeId !== null) {
-      const SABADO  = 6;
-      const DOMINGO = 7;
-      this.reservaService.consultarPrecioPorTipoHabitacion(roomTypeId)
-        .subscribe((resp: Precio[]) => {
-          if (reservationDay === SABADO || reservationDay === DOMINGO) {
-            this.reservaForm.get('totalPayment').setValue(resp[0].precioFinDeSemana);
-          } else {
-            this.reservaForm.get('totalPayment').setValue(resp[0].precioSemana);
-          }
-        });
-    }
-  }
-
-  crear() {
-    if (this.reservaForm.invalid) {
+  crear(data: Reserva) {
+    if (data === null) {
       return;
     }
 
-    const reserva = {
-      id: this.reservaForm.get('id').value,
-      identificacionUsuario: this.reservaForm.get('userId').value,
-      nombreUsuario: this.reservaForm.get('userName').value,
-      fechaReserva: moment(this.reservaForm.get('reservationDate').value).format('YYYY-MM-DD'),
-      fechaCreacion: moment().format('YYYY-MM-DD'),
-      valorAPagar: this.reservaForm.get('totalPayment').value,
-      idTipoHabitacion: this.reservaForm.get('roomType').value,
-      idTipoUsuario: this.reservaForm.get('userType').value,
-    };
-
-    this.reservaService.guardar(reserva).subscribe(response => {
+    this.reservaService.guardar(data).subscribe(response => {
       if (response[`valor`] !== undefined) {
         Swal.fire({
           icon: 'success',
@@ -108,7 +30,6 @@ export class CrearReservaComponent implements OnInit {
           showConfirmButton: true,
           timer: 2000
         });
-        this.reservaForm.reset();
         this.router.navigate(['/reserva/listar']);
       }
     }, (error) => {

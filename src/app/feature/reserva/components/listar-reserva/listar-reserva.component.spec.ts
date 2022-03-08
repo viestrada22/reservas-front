@@ -1,5 +1,5 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpService } from '@core/services/http.service';
 import { ReservaService } from '@reserva/shared/service/reserva.service';
@@ -14,6 +14,7 @@ describe('ListarReservaComponent', () => {
   let fixture: ComponentFixture<ListarReservaComponent>;
   let service: ReservaService;
   const mockService: ReservaMockService = new ReservaMockService();
+  let spyOnConsultar;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -31,6 +32,7 @@ describe('ListarReservaComponent', () => {
     fixture = TestBed.createComponent(ListarReservaComponent);
     component = fixture.componentInstance;
     service = TestBed.inject(ReservaService);
+    spyOnConsultar = spyOn(service, 'consultar').and.returnValue(of(mockService.consultar()));
     fixture.detectChanges();
   });
 
@@ -39,16 +41,15 @@ describe('ListarReservaComponent', () => {
   });
 
   it('Listar las reservas', () => {
-    spyOn(service, 'consultar').and.returnValue(of(mockService.consultar()));
     component.getReservas();
     expect(component.listaDeReservas.length).toBe(2);
   });
 
-  it('deberia eliminar una reserva si confirmar es true', () => {
+  it('deberia eliminar una reserva si confirmar es true', fakeAsync(() => {
     spyOn(Swal, 'fire').and.returnValue(Promise.resolve({ isConfirmed: true } as SweetAlertResult));
     spyOn(service, 'eliminar').and.returnValue(of(true));
-    component.eliminarReserva(mockService.eliminar());
-    spyOn(service, 'consultar').and.returnValue(of([
+    spyOnConsultar.and.callThrough();
+    spyOnConsultar.and.returnValue(of([
       {
         id: 1,
         identificacionUsuario: '1214721788',
@@ -60,8 +61,9 @@ describe('ListarReservaComponent', () => {
         idTipoUsuario: 3
       },
     ]));
-    component.getReservas();
+    component.eliminarReserva(mockService.eliminar());
+    tick(3);
     expect(component.listaDeReservas.length).toBe(1);
-  });
+  }));
 
 });

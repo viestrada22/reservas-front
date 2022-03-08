@@ -1,96 +1,10 @@
 <div class="row ml-6">
   <div class="col-10 offset-1">
-    <div class="card">
-      <div class="card-header text-center bg-dark text-light">
-        <h3>Crear Reserva</h3>
-      </div>
-      <div class="card-body">
-        <form [formGroup]="reservaForm" (ngSubmit)="crear()">
-          <div class="row">
-            <input type="text" name="id" formControlName="id" hidden>
-            <div class="form-group mb-1 col-lg-6 col-md-6 col-s-6 col-xs-12">
-              <label for="userId">Identificación Usuario</label>
-              <input 
-                validar
-                type="text" 
-                id="userId" 
-                name="userId" 
-                class="form-control rounded-pill"
-                formControlName="userId">
-            </div>
-  
-            <div class="form-group mb-1 col-lg-6 col-md-6 col-s-6 col-xs-12">
-              <label for="userName">Nombre Usuario</label>
-              <input 
-                validar
-                type="text" 
-                id="userName"
-                name="userName"
-                class="form-control rounded-pill"
-                formControlName="userName">
-            </div>
-  
-            <div class="form-group mb-1 col-lg-6 col-md-6 col-s-6 col-xs-12">
-              <label for="userType">Tipo de Usuario</label>
-              <select 
-                validar
-                type="text" 
-                id="userType"
-                name="userType"
-                class="form-control rounded-pill"
-                formControlName="userType"
-                (ngModelChange)="calcularPago()">
-                <option value="" hidden>Seleccione el tipo de usuario</option>
-                <option *ngFor="let item of listaTipoUsuarios" [value]="item.id">{{ item.tipoUsuario | titlecase }}</option>
-              </select>
-            </div>
-  
-            <div class="form-group mb-1 col-lg-6 col-md-6 col-s-6 col-xs-12">
-              <label for="roomType">Tipo de Habitación</label>
-              <select 
-                validar
-                type="text" 
-                id="roomType"
-                name="roomType"
-                class="form-control rounded-pill"
-                formControlName="roomType"
-                (ngModelChange)="calcularPago()">
-                <option value="" hidden>Seleccione el tipo de habitación</option>
-                <option *ngFor="let item of listaTipoHabitaciones" [value]="item.id">{{ item.tipoHabitacion | titlecase }}</option>
-              </select>
-            </div>
-  
-            <div class="form-group mb-1 col-lg-6 col-md-6 col-s-6 col-xs-12">
-              <label for="reservationDate">Fecha de Reserva</label>
-              <input 
-                validar
-                type="date" 
-                id="reservationDate" 
-                name="reservationDate" 
-                class="form-control rounded-pill"
-                [min]="minDate"
-                formControlName="reservationDate"
-                (ngModelChange)="calcularPago()">
-            </div>
-
-            <div class="form-group mb-1 col-lg-6 col-md-6 col-s-6 col-xs-12">
-              <label for="totalPayment">Valor a Pagar</label>
-              <input 
-                validar
-                type="number" 
-                id="totalPayment" 
-                name="totalPayment" 
-                class="form-control rounded-pill"
-                readonly
-                formControlName="totalPayment">
-            </div>
-  
-            <div class="mt-2 d-flex justify-content-end">
-              <button id="createButton" type="submit" class="btn btn-dark rounded-pill">Crear Reserva</button>
-            </div>
-          </div>
-        </form>
-      </div>
-    </div>
+    <app-reserva-form
+      [titleText]="'Crear Reserva'"
+      [submitText]="'Crear Reserva'"
+      [reserva]="reserva"
+      (execution)="crear($event)">
+    </app-reserva-form>
   </div>
 </div>

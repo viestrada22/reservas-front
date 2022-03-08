@@ -16,18 +16,18 @@ describe('workspace-project reserva', () => {
   });
 
   it('Deberia crear la reserva', async () => {
-    const IDENTIFICACION_USUARIO = '7540207';
+    const IDENTIFICACION_USUARIO = Math.floor(Math.random() * (20000 - 10)) + 1;
     const NOMBRE_USUARIO = 'Daniel Restrepo';
-    const FECHA_RESERVA = '03/04/2022';
+    const FECHA_RESERVA = '03/25/2022';
 
     reserva.clickBotonCrearReservas();
-    expect(page.getParagraphText('app-crear-reserva', 'h3')).toEqual('Crear Reserva');
+    expect(page.getParagraphText('app-reserva-form', 'h3')).toEqual('Crear Reserva');
     reserva.ingresarIdUsuario(IDENTIFICACION_USUARIO);
     reserva.ingresarNombreUsuario(NOMBRE_USUARIO);
     reserva.ingresarFechaReserva(FECHA_RESERVA);
     reserva.ingresarIdTipoHabitacion();
     await reserva.ingresarIdTipoUsuario();
-    await reserva.clickCrearReserva();
+    await reserva.clickGuardarReserva();
     // Adicionamos las validaciones despues de la creación
     expect(await reserva.alertaDeExito().isPresent()).toEqual(true);
     reserva.clickConfirmar();
@@ -37,18 +37,18 @@ describe('workspace-project reserva', () => {
   it('Deberia actualizar la reserva', async () => {
     const IDENTIFICACION_USUARIO = '1017128964';
     const NOMBRE_USUARIO = 'Neider Quintero';
-    const FECHA_RESERVA = '03/02/2022';
+    const FECHA_RESERVA = '03/24/2022';
 
     reserva.clickBotonListarReservas();
     expect(page.getParagraphText('app-listar-reserva', 'h3')).toEqual('Lista de Reservas');
     reserva.clickEditar();
-    expect(page.getParagraphText('app-editar-reserva', 'h3')).toEqual('Editar Reserva');
+    expect(page.getParagraphText('app-reserva-form', 'h3')).toEqual('Editar Reserva');
     reserva.ingresarIdUsuario(IDENTIFICACION_USUARIO);
     reserva.ingresarNombreUsuario(NOMBRE_USUARIO);
     reserva.ingresarFechaReserva(FECHA_RESERVA);
     reserva.ingresarIdTipoHabitacion();
     await reserva.ingresarIdTipoUsuario();
-    await reserva.clickActualizar();
+    await reserva.clickGuardarReserva();
     // Adicionamos las validaciones despues de la creación
     expect(await reserva.alertaDeExito().isPresent()).toEqual(true);
     reserva.clickConfirmar();

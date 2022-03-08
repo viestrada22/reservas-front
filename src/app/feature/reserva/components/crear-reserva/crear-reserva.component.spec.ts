@@ -7,15 +7,16 @@ import { HttpService } from '@core/services/http.service';
 import { ReservaService } from '@reserva/shared/service/reserva.service';
 import { ReservaMockService } from '@shared/mocks/reserva-mock-service';
 import { of } from 'rxjs';
+import Swal from 'sweetalert2';
 
 import { CrearReservaComponent } from './crear-reserva.component';
 
 describe('CrearReservaComponent', () => {
   let component: CrearReservaComponent;
   let fixture: ComponentFixture<CrearReservaComponent>;
+  let routeSpy: any;
   let service: ReservaService;
   const mockService: ReservaMockService = new ReservaMockService();
-  let routeSpy;
 
   beforeEach(async () => {
     routeSpy = { navigate: jasmine.createSpy('navigate') };
@@ -35,6 +36,7 @@ describe('CrearReservaComponent', () => {
     fixture = TestBed.createComponent(CrearReservaComponent);
     component = fixture.componentInstance;
     service = TestBed.inject(ReservaService);
+    spyOn(service, 'guardar').and.returnValue(of(true));
     fixture.detectChanges();
   });
 
@@ -42,46 +44,11 @@ describe('CrearReservaComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('El formulario es invalido cuando esta vacio', () => {
-    expect(component.reservaForm.valid).toBeFalsy();
-  });
-
-  it('Registrando reserva', () => {
-    spyOn(service, 'guardar').and.returnValue(of(true));
-    expect(component.reservaForm.valid).toBeFalsy();
-    component.reservaForm.controls.userId.setValue('123456');
-    component.reservaForm.controls.userName.setValue('Julian Florez');
-    component.reservaForm.controls.reservationDate.setValue('2022-02-25');
-    component.reservaForm.controls.roomType.setValue(3);
-    component.reservaForm.controls.userType.setValue(3);
-    component.reservaForm.controls.totalPayment.setValue(650000);
-    expect(component.reservaForm.valid).toBeTruthy();
-    component.crear();
+  it('debería recibir la data y crear la reserva', () => {
+    const data = mockService.crear();
+    component.crear(data);
+    spyOn(Swal, 'fire').and.callFake(args => args);
     expect(service.guardar).toHaveBeenCalled();
-  });
-
-  it('Listar tipos de usuario', () => {
-    spyOn(service, 'listarTipoUsuario').and.returnValue(of(mockService.listarTipoUsuario()));
-    component.getTipoUsuario();
-    expect(component.listaTipoUsuarios.length).toBe(3);
-  });
-
-  it('Listar tipos de habitacion', () => {
-    spyOn(service, 'listarTipoHabitacion').and.returnValue(of(mockService.listarTipoHabitacion()));
-    component.getTipoHabitacion();
-    expect(component.listaTipoHabitaciones.length).toBe(3);
-  });
-
-  it('Deberia calcular precio por tipo de habitación', () => {
-    spyOn(service, 'consultarPrecioPorTipoHabitacion').and.returnValue(of([{
-      id: 3,
-      precioSemana: 650000,
-      precioFinDeSemana: 850000,
-      idTipoHabitacion: 3
-    }]));
-    component.reservaForm.controls.roomType.setValue(3);
-    component.calcularPago();
-    expect(component.reservaForm.controls.totalPayment.value).toBeGreaterThan(0);
   });
 
 });

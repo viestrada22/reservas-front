@@ -6,6 +6,7 @@ import { ReservaRoutingModule } from './reserva-routing.module';
 import { SharedModule } from '@shared/shared.module';
 import { ReservaService } from './shared/service/reserva.service';
 import { EditarReservaComponent } from './components/editar-reserva/editar-reserva.component';
+import { ReservaFormComponent } from './components/reserva-form/reserva-form.component';
 
 
 
@@ -15,6 +16,7 @@ import { EditarReservaComponent } from './components/editar-reserva/editar-reser
     ListarReservaComponent,
     ReservaComponent,
     EditarReservaComponent,
+    ReservaFormComponent,
   ],
   imports: [
     ReservaRoutingModule,
